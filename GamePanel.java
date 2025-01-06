@@ -58,6 +58,13 @@ public class GamePanel extends JPanel implements ActionListener {
         idle = true;
         difficultySet = false;
         running = false;
+        applesEaten = 0;
+        bodyParts = 2;
+        direction = 'R';
+        if (timer != null) {
+            timer.stop();
+            timer = null;
+        }
     }
 
     public void paintComponent(Graphics g) {
@@ -220,23 +227,31 @@ public class GamePanel extends JPanel implements ActionListener {
                 return;
             }
 
-            switch (e.getKeyCode()) {
-                case KeyEvent.VK_LEFT, KeyEvent.VK_A:
-                    if (direction != 'R')
-                        direction = 'L';
-                    break;
-                case KeyEvent.VK_RIGHT, KeyEvent.VK_D:
-                    if (direction != 'L')
-                        direction = 'R';
-                    break;
-                case KeyEvent.VK_UP, KeyEvent.VK_W:
-                    if (direction != 'D')
-                        direction = 'U';
-                    break;
-                case KeyEvent.VK_DOWN, KeyEvent.VK_S:
-                    if (direction != 'U')
-                        direction = 'D';
-                    break;
+            if (running) {
+                switch (e.getKeyCode()) {
+                    case KeyEvent.VK_LEFT, KeyEvent.VK_A:
+                        if (direction != 'R')
+                            direction = 'L';
+                        break;
+                    case KeyEvent.VK_RIGHT, KeyEvent.VK_D:
+                        if (direction != 'L')
+                            direction = 'R';
+                        break;
+                    case KeyEvent.VK_UP, KeyEvent.VK_W:
+                        if (direction != 'D')
+                            direction = 'U';
+                        break;
+                    case KeyEvent.VK_DOWN, KeyEvent.VK_S:
+                        if (direction != 'U')
+                            direction = 'D';
+                        break;
+                }
+            }
+
+            if (!running && difficultySet && e.getKeyCode() == KeyEvent.VK_ENTER) {
+                startGame();
+                initializeSnake();
+                repaint();
             }
         }
     }
