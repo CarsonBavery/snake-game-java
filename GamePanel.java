@@ -17,6 +17,7 @@ public class GamePanel extends JPanel implements ActionListener {
     final int y[] = new int[GAME_UNITS];
     int bodyParts = 2;
     int applesEaten;
+    int hiscore;
     int appleX;
     int appleY;
     char direction = 'R';
@@ -88,7 +89,7 @@ public class GamePanel extends JPanel implements ActionListener {
 
         } else if (idle && difficultySet) {
             g.setColor(Color.white);
-            g.setFont(customFont.deriveFont(40f));
+            g.setFont(customFont.deriveFont(50f));
             FontMetrics metrics = getFontMetrics(g.getFont());
             g.drawString("Press any key to start", (SCREEN_WIDTH - metrics.stringWidth("Press any key to start")) / 2,
                     SCREEN_HEIGHT / 2);
@@ -97,8 +98,10 @@ public class GamePanel extends JPanel implements ActionListener {
             g.fillRect(0, 0, SCREEN_WIDTH, SCORE_PANEL_HEIGHT);
 
             g.setColor(Color.white);
-            g.setFont(customFont);
-            g.drawString("Score: " + applesEaten, SCREEN_WIDTH / 2, SCORE_PANEL_HEIGHT / 2);
+            g.setFont(customFont.deriveFont(80f));
+            FontMetrics metrics = getFontMetrics(g.getFont());
+            g.drawString("Score: " + applesEaten, SCREEN_WIDTH - metrics.stringWidth("Score: 000"), 35);
+            g.drawString("High Score: " + hiscore, 10, 35);
 
             for (int i = 0; i <= GAME_SCREEN_HEIGHT / UNIT_SIZE; i++) {
                 g.drawLine(0, SCORE_PANEL_HEIGHT + i * UNIT_SIZE, SCREEN_WIDTH, SCORE_PANEL_HEIGHT + i * UNIT_SIZE);
@@ -197,6 +200,10 @@ public class GamePanel extends JPanel implements ActionListener {
                 GAME_SCREEN_HEIGHT / 2 + 75);
         g.drawString("Press ENTER to Play Again", (SCREEN_WIDTH - metrics.stringWidth("Press ENTER to Play Again")) / 2,
                 GAME_SCREEN_HEIGHT / 2 - 75);
+        
+        if (applesEaten > hiscore) {
+            hiscore = applesEaten;
+        }
     }
 
     @Override
